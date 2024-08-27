@@ -35,14 +35,14 @@ A modern news app built with Flutter. This app allows users to browse and read n
 ```bash
    cd flutter_news_app
 ```
-2. Navigate to the project directory::
+3. Install dependencies :
 
 ```bash
-   cd flutter_news_app
+  flutter pub get
 ```
-3. Install dependencies:
+3.  Run app:
 ```bash
-    flutter pub get
+    flutter run
 ```
 ### Usage
 Open the app and explore the news categories.
