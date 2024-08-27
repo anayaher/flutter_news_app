@@ -17,20 +17,19 @@ class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchController = TextEditingController();
   final NewsService _newsService = NewsService();
   final ScrollController _scrollController = ScrollController();
-  List<Article> _articles = [];
+  final List<Article> _articles = [];
   bool _isLoading = false;
   bool _hasMore = true;
   bool _initialLoading = true;
   int _page = 1;
-  final int _pageSize = 10;
-  String? _selectedCategory; // Track the selected category
+  final int _pageSize = 5;
+  String? _selectedCategory;
 
   @override
   void initState() {
     super.initState();
     _fetchArticles();
 
-    // Add a listener to the scroll controller
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
@@ -42,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _fetchArticles({int page = 1}) async {
-    if (_isLoading) return;
+    if (_isLoading || !_hasMore) return;
 
     setState(() {
       _isLoading = true;
@@ -51,16 +50,23 @@ class _HomeScreenState extends State<HomeScreen> {
     try {
       List<Article> articles;
 
-      if (_selectedCategory == null || _selectedCategory == 'Top Headlines') {
-        // Fetch everything without category if no category is selected
+      if (_searchController.text.isNotEmpty) {
+        // Fetch articles based on search query with pagination
         articles = await _newsService.fetchEverything(
-          query:
-              _searchController.text.isEmpty ? 'news' : _searchController.text,
+          query: _searchController.text,
+          page: page,
+          pageSize: _pageSize,
+        );
+      } else if (_selectedCategory == null ||
+          _selectedCategory == 'Top Headlines') {
+        // Fetch general news or top headlines
+        articles = await _newsService.fetchEverything(
+          query: 'news',
           page: page,
           pageSize: _pageSize,
         );
       } else {
-        // Fetch articles according to the selected category
+        // Fetch articles by selected category
         articles = await _newsService.fetchEverythingByCategory(
           category: _selectedCategory!,
           page: page,
@@ -68,20 +74,19 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       }
 
-      setState(() {
-        if (articles.isEmpty) {
+      if (articles.isEmpty && _articles.isEmpty) {
+        setState(() {
           _hasMore = false;
-        } else {
+        });
+      } else {
+        setState(() {
           _articles.addAll(articles);
           _page++;
-        }
-        _isLoading = false;
-        if (_initialLoading) {
-          _initialLoading = false;
-        }
-      });
+        });
+      }
     } catch (e) {
       print('Error fetching articles: $e');
+    } finally {
       setState(() {
         _isLoading = false;
         if (_initialLoading) {
@@ -91,9 +96,10 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  void _onCategorySelected(String category) {
+  void _onSearch(String query) {
     setState(() {
-      _selectedCategory = category == 'Top Headlines' ? null : category;
+      // Reset state for search
+      _selectedCategory = null; // Remove any selected category
       _articles.clear();
       _page = 1;
       _hasMore = true;
@@ -107,7 +113,6 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            // Fixed header with search bar and category chips
             Container(
               color: Colors.white,
               padding:
@@ -117,17 +122,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   NewsSearchBar(
                     controller: _searchController,
                     onSearch: (query) {
-                      setState(() {
-                        _articles.clear();
-                        _page = 1;
-                        _hasMore = true;
-                        _fetchArticles();
-                      });
+                      _onSearch(query);
                     },
                   ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
                   CategoryChips(
-                    categories: [
+                    categories: const [
                       'Top Headlines',
                       'Technology',
                       'Sports',
@@ -136,9 +136,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       'Science',
                       'Business'
                     ],
-                    onCategorySelected: (s) {
+                    onCategorySelected: (category) {
                       setState(() {
-                        _selectedCategory = s == 'Top Headlines' ? null : s;
+                        _selectedCategory =
+                            category == 'Top Headlines' ? null : category;
+                        _searchController.clear();
                         _articles.clear();
                         _page = 1;
                         _hasMore = true;
@@ -149,24 +151,49 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            // Scrollable content
             Expanded(
-              child: ListView.builder(
-                controller: _scrollController,
-                itemCount: _articles.length +
-                    (_hasMore ? 1 : 0), // Add one for the loading indicator
-                itemBuilder: (context, index) {
-                  if (index == _articles.length) {
-                    // Show a loading indicator if more data is being fetched
-                    return _buildSkeletonLoading();
-                  }
-
-                  final article = _articles[index];
-                  return NewsCard(article: article);
-                },
-              ),
+              child: _buildContent(),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildContent() {
+    if (_isLoading && _articles.isEmpty) {
+      return _buildSkeletonLoading();
+    }
+
+    if (_articles.isEmpty) {
+      return _buildNoArticlesFound();
+    }
+
+    return ListView.builder(
+      controller: _scrollController,
+      itemCount: _articles.length + (_hasMore ? 1 : 0),
+      itemBuilder: (context, index) {
+        if (index == _articles.length) {
+          return _buildSkeletonLoading();
+        }
+
+        final article = _articles[index];
+        return NewsCard(article: article);
+      },
+    );
+  }
+
+  Widget _buildNoArticlesFound() {
+    return const Center(
+      child: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Text(
+          'No articles found',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.grey,
+          ),
         ),
       ),
     );

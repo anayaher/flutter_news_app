@@ -3,10 +3,11 @@ import 'package:http/http.dart' as http;
 import 'package:news/models/article.dart';
 
 class NewsService {
-  final String _apiKey = '49b2fec56e9e4b428d7f5eecece58e6b';
+  final String _apiKey = 'fe754a0d4f1d40ad8f20ae2b01cc4629';
   final String _everythingBaseUrl = 'https://newsapi.org/v2/everything';
+  final String _topHeadlinesBaseUrl = 'https://newsapi.org/v2/top-headlines';
 
-  // Fetch everything (general news search) with pagination
+  // Fetch general news search with pagination
   Future<List<Article>> fetchEverything({
     required String query,
     int page = 1,
@@ -33,14 +34,17 @@ class NewsService {
     }
   }
 
-  // Fetch everything by category with pagination
+  // Fetch news by category with optional search query and pagination
   Future<List<Article>> fetchEverythingByCategory({
     required String category,
+    String? query, // Optional search query
     int page = 1,
-    int pageSize = 10,
+    int pageSize = 5,
   }) async {
+    // Build the query URL with both category and search term (if provided)
+    final searchQuery = query != null && query.isNotEmpty ? query : category;
     final url = Uri.parse(
-        '$_everythingBaseUrl?q=$category&page=$page&pageSize=$pageSize&apiKey=$_apiKey');
+        '$_everythingBaseUrl?q=$searchQuery&page=$page&pageSize=$pageSize&apiKey=$_apiKey');
 
     final response = await http.get(url);
 
