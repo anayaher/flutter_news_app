@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 class NewsSearchBar extends StatelessWidget {
   final TextEditingController controller;
   final Function(String) onSearch;
+  final ThemeData themeData;
 
-  const NewsSearchBar(
-      {super.key, required this.controller, required this.onSearch});
+  const NewsSearchBar({
+    super.key,
+    required this.controller,
+    required this.onSearch,
+    required this.themeData,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,13 +21,13 @@ class NewsSearchBar extends StatelessWidget {
         onSubmitted: onSearch,
         decoration: InputDecoration(
           hintText: 'Search articles...',
-          prefixIcon: const Icon(Icons.search),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(25),
-            borderSide: BorderSide.none,
+          prefixIcon: Icon(
+            Icons.search,
+            color: themeData.iconTheme.color,
           ),
+          border: themeData.inputDecorationTheme.border,
           filled: true,
-          fillColor: Colors.grey[200],
+          fillColor: themeData.inputDecorationTheme.fillColor,
         ),
       ),
     );

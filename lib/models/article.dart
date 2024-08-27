@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Article {
   final String author;
   final String title;
@@ -28,5 +30,36 @@ class Article {
       publishedAt: json['publishedAt'] ?? '',
       content: json['content'] ?? '',
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'author': author,
+      'title': title,
+      'description': description,
+      'url': url,
+      'urlToImage': urlToImage,
+      'publishedAt': publishedAt,
+      'content': content,
+    };
+  }
+
+  factory Article.fromMap(Map<String, dynamic> map) {
+    return Article(
+      author: map['author'] as String,
+      title: map['title'] as String,
+      description: map['description'] as String,
+      url: map['url'] as String,
+      urlToImage: map['urlToImage'] as String,
+      publishedAt: map['publishedAt'] as String,
+      content: map['content'] as String,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  static Article fromJsonString(String jsonString) {
+    final Map<String, dynamic> jsonData = json.decode(jsonString);
+    return Article.fromJson(jsonData);
   }
 }

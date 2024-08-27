@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:news/models/article.dart';
+import 'package:news/screens/article_screen.dart';
 import 'package:skeletons/skeletons.dart';
 
 class NewsCard extends StatefulWidget {
+  final ThemeData themeData;
   final Article article;
 
   const NewsCard({
     super.key,
     required this.article,
+    required this.themeData,
   });
 
   @override
@@ -19,10 +22,18 @@ class NewsCard extends StatefulWidget {
 class _NewsCardState extends State<NewsCard> {
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    final theme = widget.themeData;
+
     return GestureDetector(
-      onTap: () => {
-        // Handle tap event here
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ArticleScreen(
+              article: widget.article,
+            ),
+          ),
+        );
       },
       child: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -31,13 +42,15 @@ class _NewsCardState extends State<NewsCard> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12), // Rounded corners
           ),
+          color: theme.cardColor, // Use theme's card color
           child: Padding(
             padding: const EdgeInsets.all(12.0), // Increased padding
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(8), // Rounded corners for image
+                  borderRadius:
+                      BorderRadius.circular(8), // Rounded corners for image
                   child: Image.network(
                     widget.article.urlToImage.toString(),
                     fit: BoxFit.cover,
@@ -73,8 +86,9 @@ class _NewsCardState extends State<NewsCard> {
                   child: Text(
                     widget.article.title.toString(),
                     style: GoogleFonts.poppins(
-                      textStyle: const TextStyle(
-                        color: Colors.black87, // Darker text color
+                      textStyle: TextStyle(
+                        color: theme.textTheme.bodyLarge?.color ??
+                            Colors.black87, // Use theme text color
                         fontWeight: FontWeight.w600,
                         fontSize: 16,
                       ),
@@ -89,9 +103,10 @@ class _NewsCardState extends State<NewsCard> {
                       Expanded(
                         child: Row(
                           children: [
-                            const Icon(
+                            Icon(
                               Icons.person,
-                              color: Colors.black54,
+                              color:
+                                  theme.iconTheme.color, // Use theme icon color
                               size: 20,
                             ),
                             SizedBox(width: 8.0),
@@ -100,8 +115,9 @@ class _NewsCardState extends State<NewsCard> {
                                 widget.article.author.toString(),
                                 overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.poppins(
-                                  textStyle: const TextStyle(
-                                    color: Colors.black54, // Slightly lighter color
+                                  textStyle: TextStyle(
+                                    color: theme.textTheme.bodyLarge?.color ??
+                                        Colors.black54, // Use theme text color
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -112,19 +128,21 @@ class _NewsCardState extends State<NewsCard> {
                       ),
                       Row(
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.access_time,
-                            color: Colors.black54,
+                            color:
+                                theme.iconTheme.color, // Use theme icon color
                             size: 20,
                           ),
                           SizedBox(width: 8.0),
                           Text(
-                            Jiffy.parse(
-                              widget.article.publishedAt.toString(),
-                            ).fromNow().toString(),
+                            Jiffy.parse(widget.article.publishedAt.toString())
+                                .fromNow()
+                                .toString(),
                             style: GoogleFonts.poppins(
-                              textStyle: const TextStyle(
-                                color: Colors.black54, // Slightly lighter color
+                              textStyle: TextStyle(
+                                color: theme.textTheme.bodyMedium?.color ??
+                                    Colors.black54, // Use theme text color
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -139,8 +157,9 @@ class _NewsCardState extends State<NewsCard> {
                   child: Text(
                     widget.article.description.toString(),
                     style: GoogleFonts.poppins(
-                      textStyle: const TextStyle(
-                        color: Colors.black87, // Darker text color
+                      textStyle: TextStyle(
+                        color: theme.textTheme.bodyMedium?.color ??
+                            Colors.black87, // Use theme text color
                         fontWeight: FontWeight.w400,
                       ),
                     ),

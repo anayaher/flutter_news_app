@@ -3,10 +3,9 @@ import 'package:http/http.dart' as http;
 import 'package:news/models/article.dart';
 
 class NewsService {
-  final String _apiKey = 'fe754a0d4f1d40ad8f20ae2b01cc4629';
+  final String _apiKey = '8f8d0aa43f2d4c19ab99d8d649c9e8bb';
   final String _everythingBaseUrl = 'https://newsapi.org/v2/everything';
-  final String _topHeadlinesBaseUrl = 'https://newsapi.org/v2/top-headlines';
-
+ 
   // Fetch general news search with pagination
   Future<List<Article>> fetchEverything({
     required String query,

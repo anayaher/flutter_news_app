@@ -1,57 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:news/providers/news_provider.dart';
 
-class CategoryChips extends StatefulWidget {
-  final List<String> categories;
-  final Function(String?) onCategorySelected;
+class CategoryChips extends StatelessWidget {
+  final ThemeData themeData;
 
   const CategoryChips({
     super.key,
-    required this.categories,
-    required this.onCategorySelected,
+    required this.themeData,
   });
 
   @override
-  _CategoryChipsState createState() => _CategoryChipsState();
-}
-
-class _CategoryChipsState extends State<CategoryChips> {
-  String? _selectedCategory;
-
-  @override
   Widget build(BuildContext context) {
+    List<String> categoriesItems = [
+      'Top Headlines',
+      'Technology',
+      'Sports',
+      'Entertainment',
+      'Health',
+      'Science',
+      'Business'
+    ];
+    final articleState = Provider.of<ArticleState>(context);
+
     return SizedBox(
       height: 50, // Adjust the height as needed
       child: ListView(
         scrollDirection: Axis.horizontal,
-        children: widget.categories.map((category) {
-          final isSelected = category == _selectedCategory;
+        children: categoriesItems.map((category) {
+          final isSelected = category == articleState.selectedCategory;
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: ChoiceChip(
               label: Text(
                 category,
                 style: TextStyle(
-                  color: isSelected ? Colors.white : Colors.black,
+                  color: isSelected
+                      ? themeData.chipTheme.selectedColor
+                      : themeData.chipTheme.labelStyle?.color,
                 ),
               ),
               selected: isSelected,
-              selectedColor: Colors.blue,
-              backgroundColor: Colors.grey[200],
-              onSelected: (isSelected) {
-                setState(() {
-                  _selectedCategory = isSelected
-                      ? (isSelected && _selectedCategory == category
-                          ? null
-                          : category)
-                      : null;
-                });
-                widget.onCategorySelected(_selectedCategory);
+              selectedColor: themeData.chipTheme.selectedColor,
+              backgroundColor: themeData.chipTheme.backgroundColor,
+              onSelected: (bool selected) {
+                // Only update if selection status changes
+                if (selected && category != articleState.selectedCategory) {
+                  articleState.selectCategory(category);
+                } else if (!selected &&
+                    category == articleState.selectedCategory) {
+                  articleState.selectCategory(
+                      'top-headlines'); // Deselect if already selected
+                }
               },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
               elevation: 4,
-              shadowColor: Colors.black.withOpacity(0.3),
+              shadowColor: themeData.shadowColor,
             ),
           );
         }).toList(),
