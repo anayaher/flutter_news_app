@@ -1,16 +1,58 @@
-# news
+# Flutter News App
 
-A new Flutter project.
+A modern news app built with Flutter. This app allows users to browse and read news articles from various categories, providing a smooth and engaging experience. 
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- **News Categories**: Browse news by different categories.
+- **Article Details**: Read full details of selected articles through webview.
+- **Save Articles**: Users can save articles for later reading.
+- **Dark Mode**: Added Dark Mode.
 
-A few resources to get you started if this is your first Flutter project:
+## Screenshots
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- **Home**
+
+![Home Page (Dark Mode)](https://github.com/anayaher/flutter_news_app/blob/main/screenshots/Simulator%20Screenshot%20-%20iPhone%2015%20-%202024-08-28%20at%2002.41.07.png)
+![Home Page (Light Mode)](https://github.com/anayaher/flutter_news_app/blob/main/screenshots/Simulator%20Screenshot%20-%20iPhone%2015%20-%202024-08-28%20at%2002.40.59.png)
+
+- **Category-Wise**
+
+![Category-Wise Page (Dark Mode)](https://github.com/anayaher/flutter_news_app/blob/main/screenshots/Simulator%20Screenshot%20-%20iPhone%2015%20-%202024-08-28%20at%2002.38.23.png)
+
+- **Article-Page**
+
+![Article Page (Dark Mode)](hhttps://github.com/anayaher/flutter_news_app/blob/main/screenshots/Simulator%20Screenshot%20-%20iPhone%2015%20-%202024-08-28%20at%2002.37.58.png)
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+   git clone https://github.com/anayaher/flutter_news_app.git
+```
+2. Navigate to the project directory::
+
+```bash
+   cd flutter_news_app
+```
+2. Navigate to the project directory::
+
+```bash
+   cd flutter_news_app
+```
+3. Install dependencies:
+```bash
+    flutter pub get
+```
+### Usage
+Open the app and explore the news categories.
+Tap on any article to view its details.
+Use the save feature to bookmark articles for later.
+
+### Contact
+Anay Aher - aheranay@gmail.com
+   
+
+
