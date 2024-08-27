@@ -12,18 +12,16 @@ A modern news app built with Flutter. This app allows users to browse and read n
 ## Screenshots
 
 
-- **Home**
+### Home
+<img src="https://github.com/anayaher/flutter_news_app/blob/main/screenshots/Simulator%20Screenshot%20-%20iPhone%2015%20-%202024-08-28%20at%2002.41.07.png" alt="Home Page (Dark Mode)" width="300"/>
+<img src="https://github.com/anayaher/flutter_news_app/blob/main/screenshots/Simulator%20Screenshot%20-%20iPhone%2015%20-%202024-08-28%20at%2002.40.59.png" alt="Home Page (Light Mode)" width="300"/>
 
-![Home Page (Dark Mode)](https://github.com/anayaher/flutter_news_app/blob/main/screenshots/Simulator%20Screenshot%20-%20iPhone%2015%20-%202024-08-28%20at%2002.41.07.png)
-![Home Page (Light Mode)](https://github.com/anayaher/flutter_news_app/blob/main/screenshots/Simulator%20Screenshot%20-%20iPhone%2015%20-%202024-08-28%20at%2002.40.59.png)
+### Category-Wise
+<img src="https://github.com/anayaher/flutter_news_app/blob/main/screenshots/Simulator%20Screenshot%20-%20iPhone%2015%20-%202024-08-28%20at%2002.38.23.png" alt="Category-Wise Page (Dark Mode)" width="300"/>
 
-- **Category-Wise**
+### Article-Page
+<img src="https://github.com/anayaher/flutter_news_app/blob/main/screenshots/Simulator%20Screenshot%20-%20iPhone%2015%20-%202024-08-28%20at%2002.37.58.png" alt="Article Page (Dark Mode)" width="300"/>
 
-![Category-Wise Page (Dark Mode)](https://github.com/anayaher/flutter_news_app/blob/main/screenshots/Simulator%20Screenshot%20-%20iPhone%2015%20-%202024-08-28%20at%2002.38.23.png)
-
-- **Article-Page**
-
-![Article Page (Dark Mode)](hhttps://github.com/anayaher/flutter_news_app/blob/main/screenshots/Simulator%20Screenshot%20-%20iPhone%2015%20-%202024-08-28%20at%2002.37.58.png)
 
 ### Installation
 
