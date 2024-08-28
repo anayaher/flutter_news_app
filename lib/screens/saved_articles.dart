@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:news/models/article.dart';
-
-import 'package:news/screens/article_screen.dart';
 import 'package:news/service/article_service.dart';
 import 'package:news/widgets/news_card.dart';
 
 class SavedArticlesScreen extends StatefulWidget {
+  const SavedArticlesScreen({super.key});
+
   @override
   State<SavedArticlesScreen> createState() => _SavedArticlesScreenState();
 }
@@ -30,7 +30,7 @@ class _SavedArticlesScreenState extends State<SavedArticlesScreen> {
         future: _savedArticles,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
 
           if (snapshot.hasError) {
@@ -38,7 +38,7 @@ class _SavedArticlesScreenState extends State<SavedArticlesScreen> {
           }
 
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No saved articles.'));
+            return  const Center(child: Text('No saved articles.'));
           }
 
           final articles = snapshot.data!;

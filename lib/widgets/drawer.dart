@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:news/screens/article_screen.dart';
+
 import 'package:news/screens/saved_articles.dart';
 import 'package:provider/provider.dart';
 import 'package:news/providers/theme_provider.dart';
@@ -46,7 +46,7 @@ class DrawerWidget extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SavedArticlesScreen(),
+                        builder: (context) => const SavedArticlesScreen(),
                       ));
                 },
               ),

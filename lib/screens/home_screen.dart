@@ -10,8 +10,10 @@ import 'package:news/widgets/category_chips.dart';
 import 'package:news/widgets/search_bar.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -59,12 +61,12 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          drawer: const DrawerWidget(), // Use the DrawerWidget here
+          drawer: const DrawerWidget(),
           body: SafeArea(
             child: Column(
               children: [
                 Container(
-                  color: theme.scaffoldBackgroundColor, // Use theme colors
+                  color: theme.scaffoldBackgroundColor,
                   padding: const EdgeInsets.symmetric(
                       horizontal: 8.0, vertical: 8.0),
                   child: Column(
@@ -95,6 +97,9 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
   }
+
+
+  //main content with data
 
   Widget _buildContent(ThemeData theme) {
     final articleState = Provider.of<ArticleState>(context);
